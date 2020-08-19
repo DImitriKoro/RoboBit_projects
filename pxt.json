@@ -1,5 +1,5 @@
 {
-    "name": "Temperaure analogue",
+    "name": "motor control",
     "description": "",
     "dependencies": {
         "core": "*",
