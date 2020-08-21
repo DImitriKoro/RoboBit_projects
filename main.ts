@@ -17,8 +17,6 @@ input.onButtonPressed(Button.B, function () {
 })
 let Temperature = 0
 let A = 4
-let V_acceleration_x = 0
-let v_acceleration_y = 0
 robotbit.rgb().showColor(neopixel.colors(NeoPixelColors.Black))
 robotbit.rgb().setBrightness(5)
 robotbit.Servo(robotbit.Servos.S1, A)
@@ -27,7 +25,8 @@ let range = robotbit.rgb().range(0, 4)
 music.ringTone(0)
 basic.showString("Hello boy!")
 basic.forever(function () {
-    v_acceleration_y = input.acceleration(Dimension.Y)
-    robotbit.MotorRun(robotbit.Motors.M1A, 0.25 * v_acceleration_y)
-    basic.pause(50)
+    if (Math.abs(input.acceleration(Dimension.X)) > 150 && Math.abs(input.acceleration(Dimension.Y)) == 150) {
+        robotbit.MotorRun(robotbit.Motors.M2A, 0.125 * input.acceleration(Dimension.Z) + 0.125 * input.acceleration(Dimension.X))
+        robotbit.MotorRun(robotbit.Motors.M1A, 0.125 * input.acceleration(Dimension.Z) + 0.125 * input.acceleration(Dimension.X))
+    }
 })
