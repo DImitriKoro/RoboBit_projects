@@ -1,8 +1,7 @@
 input.onButtonPressed(Button.A, function () {
-    for (let A = 0; A <= 10; A++) {
-        basic.pause(1000)
-        CheckTemperature()
-    }
+    robotbit.MotorRun(robotbit.Motors.M1A, 100)
+    basic.pause(1000)
+    robotbit.MotorStop(robotbit.Motors.M1A)
 })
 function CheckTemperature () {
     Temperature = input.temperature()
@@ -11,20 +10,15 @@ function CheckTemperature () {
         robotbit.Servo(robotbit.Servos.S1, (Temperature - 18) * 10)
     }
 }
-input.onButtonPressed(Button.AB, function () {
-    robotbit.Servo(robotbit.Servos.S1, 180)
-})
 input.onButtonPressed(Button.B, function () {
-    for (let A = 0; A <= 180; A++) {
-        robotbit.Servo(robotbit.Servos.S1, A)
-        basic.showNumber(A)
-        basic.pause(200)
-        A += 20
-        robotbit.rgb().showColor(neopixel.rgb(randint(0, 255), randint(0, 255), randint(0, 255)))
-    }
+    robotbit.MotorRun(robotbit.Motors.M2A, 100)
+    basic.pause(1000)
+    robotbit.MotorStop(robotbit.Motors.M2A)
 })
 let Temperature = 0
 let A = 4
+let V_acceleration_x = 0
+let v_acceleration_y = 0
 robotbit.rgb().showColor(neopixel.colors(NeoPixelColors.Black))
 robotbit.rgb().setBrightness(5)
 robotbit.Servo(robotbit.Servos.S1, A)
@@ -32,3 +26,8 @@ robotbit.Servo(robotbit.Servos.S2, A)
 let range = robotbit.rgb().range(0, 4)
 music.ringTone(0)
 basic.showString("Hello boy!")
+basic.forever(function () {
+    v_acceleration_y = input.acceleration(Dimension.Y)
+    robotbit.MotorRun(robotbit.Motors.M1A, 0.25 * v_acceleration_y)
+    basic.pause(50)
+})
